@@ -157,10 +157,12 @@
             transform: translateY(-3px);
         }
 
+        /* Menu Layout - Always horizontal */
         .menu-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: clamp(20px, 4vw, 40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(15px, 3vw, 40px);
             margin-top: 40px;
             padding: 0 var(--container-padding);
             animation: slideUp 0.8s ease-out 0.4s both;
@@ -168,6 +170,7 @@
             margin-left: auto;
             margin-right: auto;
             width: 100%;
+            flex-wrap: wrap;
         }
 
         .menu-item {
@@ -177,6 +180,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
+            min-width: 120px;
+            max-width: 160px;
         }
 
         .menu-item:hover {
@@ -184,8 +190,8 @@
         }
 
         .menu-image {
-            width: clamp(80px, 20vw, 120px);
-            height: clamp(80px, 20vw, 120px);
+            width: clamp(70px, 18vw, 120px);
+            height: clamp(70px, 18vw, 120px);
             border-radius: 25px;
             background-color: var(--light-gray);
             margin: 0 auto 15px;
@@ -215,7 +221,7 @@
         .menu-title {
             font-weight: 600;
             color: #555;
-            font-size: clamp(16px, 2vw, 18px);
+            font-size: clamp(14px, 2vw, 18px);
             transition: color 0.3s;
         }
 
@@ -771,9 +777,13 @@
                 height: 40vh;
             }
             
+            /* Keep menu horizontal on mobile */
             .menu-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
+                gap: clamp(10px, 2vw, 20px);
+            }
+            
+            .menu-item {
+                min-width: 100px;
             }
         }
 
@@ -782,9 +792,22 @@
                 --container-padding: 10px;
             }
             
+            /* Ensure menu stays horizontal even on very small screens */
             .menu-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 8px;
+            }
+            
+            .menu-item {
+                min-width: 80px;
+            }
+            
+            .menu-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .menu-title {
+                font-size: 12px;
             }
             
             .letters-controls,
@@ -802,6 +825,26 @@
                 width: 120px;
                 height: 160px;
                 padding: 15px;
+            }
+        }
+
+        /* Extra small devices - maintain horizontal layout */
+        @media (max-width: 360px) {
+            .menu-container {
+                gap: 5px;
+            }
+            
+            .menu-item {
+                min-width: 70px;
+            }
+            
+            .menu-image {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .menu-title {
+                font-size: 11px;
             }
         }
     </style>
@@ -839,7 +882,7 @@
                         <div class="menu-image">
                             <!-- Replace with Pinterest image -->
                             <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                <i class="fas fa-question-circle" style="font-size: 40px;"></i>
+                                <i class="fas fa-question-circle" style="font-size: 30px;"></i>
                             </div>
                         </div>
                         <div class="menu-title">Quiz</div>
@@ -849,7 +892,7 @@
                         <div class="menu-image">
                             <!-- Replace with Pinterest image -->
                             <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                <i class="fas fa-envelope" style="font-size: 40px;"></i>
+                                <i class="fas fa-envelope" style="font-size: 30px;"></i>
                             </div>
                         </div>
                         <div class="menu-title">Letters</div>
@@ -859,17 +902,17 @@
                         <div class="menu-image">
                             <!-- Replace with Pinterest image -->
                             <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                <i class="fas fa-images" style="font-size: 40px;"></i>
+                                <i class="fas fa-images" style="font-size: 30px;"></i>
                             </div>
                         </div>
-                        <div class="menu-title">Photo Gallery</div>
+                        <div class="menu-title">Gallery</div>
                     </div>
                     
                     <div class="menu-item" onclick="showContent('playlist')">
                         <div class="menu-image">
                             <!-- Replace with Pinterest image -->
                             <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                <i class="fas fa-music" style="font-size: 40px;"></i>
+                                <i class="fas fa-music" style="font-size: 30px;"></i>
                             </div>
                         </div>
                         <div class="menu-title">Playlist</div>
