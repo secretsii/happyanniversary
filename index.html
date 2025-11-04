@@ -334,7 +334,7 @@
             box-shadow: 0 8px 20px rgba(126, 192, 255, 0.4);
         }
 
-        /* Letters Styles */
+        /* Letters Styles - Card Fan Layout */
         .letters-container {
             position: relative;
             height: 55vh;
@@ -346,6 +346,11 @@
             margin-bottom: 20px;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
             flex: 1;
+            transition: all 0.4s ease;
+        }
+
+        .letters-container.dimmed {
+            background-color: rgba(248, 248, 248, 0.7);
         }
 
         .letter {
@@ -356,37 +361,56 @@
             border-radius: 10px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             padding: 18px;
-            cursor: move;
+            cursor: pointer;
             user-select: none;
             border: 1px solid #e0e0e0;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: float 6s ease-in-out infinite;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1;
         }
 
+        /* Initial fan layout positions */
         .letter:nth-child(1) {
-            top: 12%;
-            left: 10%;
+            top: 30%;
+            left: 25%;
+            transform: rotate(-10deg);
             background-color: var(--light-pink);
-            animation-delay: 0s;
+            z-index: 1;
         }
 
         .letter:nth-child(2) {
-            top: 22%;
-            left: 38%;
+            top: 25%;
+            left: 40%;
+            transform: rotate(-5deg);
             background-color: var(--light-blue);
-            animation-delay: 1s;
+            z-index: 2;
         }
 
         .letter:nth-child(3) {
-            top: 42%;
-            left: 18%;
+            top: 30%;
+            left: 55%;
+            transform: rotate(5deg);
             background-color: #f5f0ff;
-            animation-delay: 2s;
+            z-index: 3;
         }
 
-        .letter:hover {
-            transform: scale(1.05);
+        .letter.focused {
+            transform: translate(-50%, -50%) scale(1.8) !important;
+            top: 50% !important;
+            left: 50% !important;
+            z-index: 100;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            cursor: default;
+        }
+
+        .letter.blurred {
+            opacity: 0.4;
+            filter: blur(2px);
+        }
+
+        .letter:hover:not(.focused) {
+            transform: rotate(0deg) scale(1.05);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            z-index: 10;
         }
 
         .letter-content {
@@ -426,10 +450,10 @@
             box-shadow: 0 8px 20px rgba(255, 126, 185, 0.4);
         }
 
-        /* Gallery Styles */
+        /* Gallery Styles - Photo Spinner */
         .gallery-container {
             width: 100%;
-            max-width: 750px;
+            max-width: 800px;
             margin: 0 auto;
             overflow: hidden;
             position: relative;
@@ -441,46 +465,92 @@
         .gallery-track {
             display: flex;
             transition: transform 0.6s ease;
-            gap: 12px;
+            gap: 20px;
             flex: 1;
+            padding: 10px 0;
         }
 
-        .gallery-item {
-            min-width: 78%;
-            max-width: 78%;
-            height: 48vh;
-            min-height: 280px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--light-gray);
-            color: #999;
-            font-size: 14px;
-            font-weight: normal;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s;
-            overflow: hidden;
+        .photo-container {
+            min-width: 75%;
+            max-width: 75%;
+            height: 45vh;
+            min-height: 300px;
+            perspective: 1000px;
             flex-shrink: 0;
         }
 
-        .gallery-item img {
+        .photo-spinner {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .gallery-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            border-color: var(--pink);
+        .photo-spinner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .photo-front, .photo-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .photo-front {
+            background: linear-gradient(135deg, var(--light-pink), var(--light-blue));
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .photo-back {
+            background: linear-gradient(135deg, #8a2387, #e94057, #f27121);
+            color: white;
+            transform: rotateY(180deg);
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hidden-message {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .message-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .photo-spinner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .photo-spinner.flipped:hover {
+            transform: rotateY(180deg) translateY(-5px);
         }
 
         .gallery-nav {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 25px;
             gap: 10px;
             flex-wrap: wrap;
         }
@@ -503,7 +573,7 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
             flex-wrap: wrap;
         }
 
@@ -524,16 +594,11 @@
             box-shadow: 0 8px 20px rgba(126, 192, 255, 0.4);
         }
 
-        /* Playlist Styles */
+        /* Apple Music Inspired Player - Unified Design */
         .playlist-container {
             width: 90%;
-            max-width: 420px;
+            max-width: 450px;
             margin: 0 auto;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 2px solid var(--light-pink);
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -542,135 +607,232 @@
 
         .player-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             color: var(--pink);
-            font-size: clamp(19px, 3vw, 22px);
+            font-size: clamp(22px, 3vw, 26px);
             line-height: 1.3;
+            font-weight: 700;
         }
 
-        .player-display {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 18px;
-            margin-bottom: 20px;
-            text-align: center;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-            border: 2px solid var(--light-blue);
-        }
-
-        .song-title {
-            font-size: clamp(17px, 2.5vw, 19px);
-            margin-bottom: 6px;
-            color: #555;
-            line-height: 1.3;
-        }
-
-        .song-artist {
-            font-size: clamp(13px, 2vw, 15px);
-            color: #777;
-            line-height: 1.3;
-        }
-
-        .progress-container {
-            background-color: #e0e0e0;
-            height: 5px;
-            border-radius: 4px;
-            margin: 18px 0;
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--pink);
-            border-radius: 4px;
-            width: 30%;
-            transition: width 0.3s;
-        }
-
-        .time-display {
+        .player-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #777;
+            flex-direction: column;
+            gap: 25px;
         }
 
-        .player-controls {
+        .album-art {
+            width: 220px;
+            height: 220px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #8a2387, #e94057, #f27121);
+            margin: 0 auto;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: clamp(12px, 3vw, 20px);
-            margin: 20px 0;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
         }
 
-        .control-btn {
-            width: clamp(38px, 8vw, 46px);
-            height: clamp(38px, 8vw, 46px);
+        .album-art::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            z-index: 1;
+        }
+
+        .album-art i {
+            font-size: 70px;
+            color: white;
+            opacity: 0.9;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Unified Play Button and Song Title */
+        .player-main-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .play-button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .play-btn-unified {
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background-color: white;
+            background: linear-gradient(135deg, var(--pink), var(--blue));
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            font-size: clamp(15px, 2vw, 17px);
+            box-shadow: 0 6px 20px rgba(255, 126, 185, 0.3);
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 24px;
+        }
+
+        .play-btn-unified:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 126, 185, 0.4);
+        }
+
+        .song-info-unified {
+            text-align: center;
+        }
+
+        .song-title-unified {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1d1d1f;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .song-artist-unified {
+            font-size: 17px;
+            color: #86868b;
+            line-height: 1.2;
+            font-weight: 500;
+        }
+
+        .progress-container {
+            background-color: #e0e0e0;
+            height: 4px;
+            border-radius: 2px;
+            margin: 20px 0 10px;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink), var(--blue));
+            border-radius: 2px;
+            width: 30%;
+            transition: width 0.1s linear;
+            position: relative;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #86868b;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 15px 0;
+        }
+
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            color: #1d1d1f;
         }
 
         .control-btn:hover {
-            background-color: var(--light-pink);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .play-btn {
-            width: clamp(46px, 10vw, 54px);
-            height: clamp(46px, 10vw, 54px);
-            background-color: var(--pink);
-            color: white;
-            font-size: clamp(16px, 3vw, 20px);
-        }
-
-        .play-btn:hover {
-            background-color: var(--pink);
-            transform: translateY(-3px) scale(1.1);
-            box-shadow: 0 10px 25px rgba(255, 126, 185, 0.4);
+            background: #f5f5f7;
+            transform: scale(1.05);
         }
 
         .playlist-songs {
-            margin-top: 20px;
+            margin-top: 25px;
+            max-height: 220px;
+            overflow-y: auto;
+            border-radius: 12px;
+            padding: 5px;
+            background: #f5f5f7;
         }
 
         .song-item {
-            padding: 12px;
+            padding: 14px 16px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             transition: all 0.3s;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            background: white;
         }
 
         .song-item:hover {
-            background-color: var(--light-pink);
-            transform: translateX(3px);
+            background: #f5f5f7;
         }
 
         .song-item.active {
-            background-color: var(--light-pink);
-            color: var(--pink);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: linear-gradient(135deg, var(--light-pink), var(--light-blue));
+            color: #1d1d1f;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .song-number {
-            width: 22px;
+            width: 24px;
             text-align: center;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #86868b;
         }
 
-        .song-info {
+        .song-item.active .song-number {
+            color: var(--pink);
+        }
+
+        .song-info-small {
             flex: 1;
+        }
+
+        .song-title-small {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: #1d1d1f;
+        }
+
+        .song-artist-small {
+            font-size: 14px;
+            color: #86868b;
+        }
+
+        .song-duration {
+            font-size: 14px;
+            color: #86868b;
+            font-weight: 500;
         }
 
         /* Smaller back button */
@@ -747,11 +909,6 @@
             }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
         /* Responsive adjustments */
         @media (max-width: 768px) {
             :root {
@@ -769,10 +926,14 @@
                 height: 50vh;
             }
             
-            .gallery-item {
-                min-width: 82%;
-                max-width: 82%;
-                height: 42vh;
+            .letter.focused {
+                transform: translate(-50%, -50%) scale(1.5) !important;
+            }
+            
+            .photo-container {
+                min-width: 80%;
+                max-width: 80%;
+                height: 40vh;
             }
             
             /* Perfect horizontal menu on mobile */
@@ -788,6 +949,23 @@
             
             .menu-title {
                 font-size: 12px;
+            }
+            
+            .player-card {
+                padding: 25px;
+            }
+            
+            .album-art {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .song-title-unified {
+                font-size: 20px;
+            }
+            
+            .song-artist-unified {
+                font-size: 16px;
             }
         }
 
@@ -822,16 +1000,43 @@
                 gap: 10px;
             }
             
-            .gallery-item {
+            .photo-container {
                 min-width: 85%;
                 max-width: 85%;
-                height: 38vh;
+                height: 35vh;
             }
             
             .letter {
                 width: 130px;
                 height: 170px;
                 padding: 15px;
+            }
+            
+            .letter.focused {
+                transform: translate(-50%, -50%) scale(1.3) !important;
+            }
+            
+            .player-card {
+                padding: 20px;
+            }
+            
+            .album-art {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .player-controls {
+                gap: 20px;
+            }
+            
+            .control-btn {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .play-btn-unified {
+                width: 60px;
+                height: 60px;
             }
         }
 
@@ -855,6 +1060,19 @@
             
             .search-box {
                 padding: 12px 18px;
+            }
+            
+            .letter.focused {
+                transform: translate(-50%, -50%) scale(1.2) !important;
+            }
+            
+            .player-card {
+                padding: 15px;
+            }
+            
+            .album-art {
+                width: 130px;
+                height: 130px;
             }
         }
     </style>
@@ -946,20 +1164,19 @@
             <!-- Letters Page -->
             <div id="letters" class="content">
                 <button class="back-btn" onclick="showContent('home')"><i class="fas fa-arrow-left"></i></button>
-                <div class="letters-container">
+                <div class="letters-container" id="lettersContainer">
                     <div class="letter" id="letter1">
-                        <div class="letter-content">Drag me around! 💕</div>
+                        <div class="letter-content">My Dearest Love,<br><br>Every day with you feels like a beautiful dream. You bring so much joy and happiness into my life. I love you more than words can express! 💕</div>
                     </div>
                     <div class="letter" id="letter2">
-                        <div class="letter-content">I'm movable too! ✨</div>
+                        <div class="letter-content">To My Sweetheart,<br><br>Your smile lights up my world and your laughter is my favorite melody. Thank you for being you and for sharing this incredible journey with me. ✨</div>
                     </div>
                     <div class="letter" id="letter3">
-                        <div class="letter-content">Try dragging me! 🌸</div>
+                        <div class="letter-content">My Beloved,<br><br>No matter where life takes us, I'll always be by your side. You're my best friend, my partner, and my greatest love. Forever yours. 🌸</div>
                     </div>
                 </div>
                 <div class="letters-controls">
                     <button class="letters-btn" onclick="resetLetters()">Reset Letters</button>
-                    <button class="letters-btn" onclick="arrangeLetters()">Arrange Letters</button>
                 </div>
             </div>
             
@@ -968,40 +1185,70 @@
                 <button class="back-btn" onclick="showContent('home')"><i class="fas fa-arrow-left"></i></button>
                 <div class="gallery-container">
                     <div class="gallery-track" id="galleryTrack">
-                        <div class="gallery-item">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                Photo 1
+                        <div class="photo-container">
+                            <div class="photo-spinner" onclick="flipPhoto(this)">
+                                <div class="photo-front">
+                                    Memory 1
+                                </div>
+                                <div class="photo-back">
+                                    <div class="hidden-message">Our First Date 💕</div>
+                                    <div class="message-subtitle">The day my heart found its home</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="gallery-item">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                Photo 2
+                        <div class="photo-container">
+                            <div class="photo-spinner" onclick="flipPhoto(this)">
+                                <div class="photo-front">
+                                    Memory 2
+                                </div>
+                                <div class="photo-back">
+                                    <div class="hidden-message">Beach Sunset 🌅</div>
+                                    <div class="message-subtitle">Watching the waves with you forever</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="gallery-item">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                Photo 3
+                        <div class="photo-container">
+                            <div class="photo-spinner" onclick="flipPhoto(this)">
+                                <div class="photo-front">
+                                    Memory 3
+                                </div>
+                                <div class="photo-back">
+                                    <div class="hidden-message">Morning Coffee ☕</div>
+                                    <div class="message-subtitle">Every morning is perfect with you</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="gallery-item">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                Photo 4
+                        <div class="photo-container">
+                            <div class="photo-spinner" onclick="flipPhoto(this)">
+                                <div class="photo-front">
+                                    Memory 4
+                                </div>
+                                <div class="photo-back">
+                                    <div class="hidden-message">Starry Night ✨</div>
+                                    <div class="message-subtitle">You're my favorite constellation</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="gallery-item">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                Photo 5
+                        <div class="photo-container">
+                            <div class="photo-spinner" onclick="flipPhoto(this)">
+                                <div class="photo-front">
+                                    Memory 5
+                                </div>
+                                <div class="photo-back">
+                                    <div class="hidden-message">Winter Warmth ❄️</div>
+                                    <div class="message-subtitle">You make every season magical</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="gallery-item">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                Photo 6
+                        <div class="photo-container">
+                            <div class="photo-spinner" onclick="flipPhoto(this)">
+                                <div class="photo-front">
+                                    Memory 6
+                                </div>
+                                <div class="photo-back">
+                                    <div class="hidden-message">Forever Yours 💖</div>
+                                    <div class="message-subtitle">My heart belongs to you always</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1025,48 +1272,83 @@
                 <button class="back-btn" onclick="showContent('home')"><i class="fas fa-arrow-left"></i></button>
                 <div class="playlist-container">
                     <h2 class="player-header">Our Love Playlist</h2>
-                    <div class="player-display">
-                        <div class="song-title">Sweet Melody</div>
-                        <div class="song-artist">Playful Artist</div>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    
+                    <div class="player-card">
+                        <div class="album-art">
+                            <i class="fas fa-music"></i>
                         </div>
+                        
+                        <div class="player-main-controls">
+                            <div class="play-button-container">
+                                <button class="play-btn-unified" id="playButton" onclick="togglePlay()">
+                                    <i class="fas fa-play" id="playIcon"></i>
+                                </button>
+                                <div class="song-info-unified">
+                                    <div class="song-title-unified" id="currentSongTitle">Sweet Melody</div>
+                                    <div class="song-artist-unified" id="currentSongArtist">Playful Artist</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-container" onclick="seekAudio(event)">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        
                         <div class="time-display">
-                            <span>1:20</span>
-                            <span>4:30</span>
+                            <span id="currentTime">0:00</span>
+                            <span id="totalTime">3:10</span>
+                        </div>
+                        
+                        <div class="player-controls">
+                            <button class="control-btn" onclick="previousSong()">
+                                <i class="fas fa-step-backward"></i>
+                            </button>
+                            <button class="control-btn" onclick="nextSong()">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
                         </div>
                     </div>
                     
-                    <div class="player-controls">
-                        <button class="control-btn">⏮</button>
-                        <button class="control-btn play-btn">▶</button>
-                        <button class="control-btn">⏭</button>
-                    </div>
-                    
-                    <div class="playlist-songs">
-                        <div class="song-item active">
+                    <div class="playlist-songs" id="playlistSongs">
+                        <div class="song-item active" data-index="0">
                             <div class="song-number">1</div>
-                            <div class="song-info">
-                                <div class="song-title">Sweet Melody</div>
-                                <div class="song-artist">Playful Artist</div>
+                            <div class="song-info-small">
+                                <div class="song-title-small">Sweet Melody</div>
+                                <div class="song-artist-small">Playful Artist</div>
                             </div>
-                            <div>3:10</div>
+                            <div class="song-duration">3:10</div>
                         </div>
-                        <div class="song-item">
+                        <div class="song-item" data-index="1">
                             <div class="song-number">2</div>
-                            <div class="song-info">
-                                <div class="song-title">Happy Tune</div>
-                                <div class="song-artist">Joyful Singer</div>
+                            <div class="song-info-small">
+                                <div class="song-title-small">Happy Tune</div>
+                                <div class="song-artist-small">Joyful Singer</div>
                             </div>
-                            <div>2:45</div>
+                            <div class="song-duration">2:45</div>
                         </div>
-                        <div class="song-item">
+                        <div class="song-item" data-index="2">
                             <div class="song-number">3</div>
-                            <div class="song-info">
-                                <div class="song-title">Dreamy Beat</div>
-                                <div class="song-artist">Dream Maker</div>
+                            <div class="song-info-small">
+                                <div class="song-title-small">Dreamy Beat</div>
+                                <div class="song-artist-small">Dream Maker</div>
                             </div>
-                            <div>4:20</div>
+                            <div class="song-duration">4:20</div>
+                        </div>
+                        <div class="song-item" data-index="3">
+                            <div class="song-number">4</div>
+                            <div class="song-info-small">
+                                <div class="song-title-small">Love Song</div>
+                                <div class="song-artist-small">Romantic Soul</div>
+                            </div>
+                            <div class="song-duration">3:45</div>
+                        </div>
+                        <div class="song-item" data-index="4">
+                            <div class="song-number">5</div>
+                            <div class="song-info-small">
+                                <div class="song-title-small">Heaven's Harmony</div>
+                                <div class="song-artist-small">Angel Voices</div>
+                            </div>
+                            <div class="song-duration">4:05</div>
                         </div>
                     </div>
                 </div>
@@ -1109,113 +1391,119 @@
             showContent('home');
         }
         
-        // Draggable letters functionality
-        function makeDraggable(element) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            
-            element.onmousedown = dragMouseDown;
-            
-            function dragMouseDown(e) {
-                e.preventDefault();
-                // Get the mouse cursor position at startup
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                // Call a function whenever the cursor moves
-                document.onmousemove = elementDrag;
-            }
-            
-            function elementDrag(e) {
-                e.preventDefault();
-                // Calculate the new cursor position
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                // Set the element's new position
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-            }
-            
-            function closeDragElement() {
-                // Stop moving when mouse button is released
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
-        }
+        // Letters functionality with card fan layout
+        let focusedLetter = null;
         
-        // Initialize draggable letters
-        document.addEventListener('DOMContentLoaded', function() {
+        function setupLetters() {
             const letters = document.querySelectorAll('.letter');
+            const lettersContainer = document.getElementById('lettersContainer');
+            
             letters.forEach(letter => {
-                makeDraggable(letter);
+                // Click to focus
+                letter.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    if (focusedLetter === this) {
+                        // If clicking the already focused letter, close it
+                        closeFocusedLetter();
+                    } else {
+                        // Focus the clicked letter
+                        focusLetter(this);
+                    }
+                });
             });
             
-            // Adjust letter positions for mobile
-            if (window.innerWidth < 768) {
-                const lettersContainer = document.querySelector('.letters-container');
-                const containerWidth = lettersContainer.offsetWidth;
+            // Click outside to close focused letter
+            lettersContainer.addEventListener('click', function(e) {
+                if (focusedLetter && !focusedLetter.contains(e.target)) {
+                    closeFocusedLetter();
+                }
+            });
+        }
+        
+        function focusLetter(letter) {
+            // Close any currently focused letter
+            closeFocusedLetter();
+            
+            // Set the new focused letter
+            focusedLetter = letter;
+            
+            // Add focused class to the clicked letter
+            letter.classList.add('focused');
+            
+            // Add blurred class to other letters
+            const allLetters = document.querySelectorAll('.letter');
+            allLetters.forEach(l => {
+                if (l !== letter) {
+                    l.classList.add('blurred');
+                }
+            });
+            
+            // Dim the background container
+            document.getElementById('lettersContainer').classList.add('dimmed');
+        }
+        
+        function closeFocusedLetter() {
+            if (focusedLetter) {
+                focusedLetter.classList.remove('focused');
                 
-                letters[0].style.left = '5%';
-                letters[1].style.left = '35%';
-                letters[2].style.left = '15%';
+                const allLetters = document.querySelectorAll('.letter');
+                allLetters.forEach(letter => {
+                    letter.classList.remove('blurred');
+                });
+                
+                // Restore background
+                document.getElementById('lettersContainer').classList.remove('dimmed');
+                
+                focusedLetter = null;
             }
-        });
+        }
         
         // Letters controls
         function resetLetters() {
+            closeFocusedLetter();
             const letters = document.querySelectorAll('.letter');
-            const isMobile = window.innerWidth < 768;
             
-            if (isMobile) {
-                letters[0].style.top = '12%';
-                letters[0].style.left = '5%';
-                
-                letters[1].style.top = '22%';
-                letters[1].style.left = '35%';
-                
-                letters[2].style.top = '42%';
-                letters[2].style.left = '15%';
-            } else {
-                letters[0].style.top = '12%';
-                letters[0].style.left = '10%';
-                
-                letters[1].style.top = '22%';
-                letters[1].style.left = '38%';
-                
-                letters[2].style.top = '42%';
-                letters[2].style.left = '18%';
-            }
+            // Reset to initial fan positions
+            letters[0].style.top = '30%';
+            letters[0].style.left = '25%';
+            letters[0].style.transform = 'rotate(-10deg)';
+            letters[0].style.zIndex = '1';
+            
+            letters[1].style.top = '25%';
+            letters[1].style.left = '40%';
+            letters[1].style.transform = 'rotate(-5deg)';
+            letters[1].style.zIndex = '2';
+            
+            letters[2].style.top = '30%';
+            letters[2].style.left = '55%';
+            letters[2].style.transform = 'rotate(5deg)';
+            letters[2].style.zIndex = '3';
         }
         
-        function arrangeLetters() {
-            const letters = document.querySelectorAll('.letter');
-            const container = document.querySelector('.letters-container');
-            const containerWidth = container.offsetWidth;
-            const isMobile = window.innerWidth < 768;
-            
-            const letterWidth = isMobile ? 130 : 200;
-            const spacing = (containerWidth - (3 * letterWidth)) / 4;
-            
-            letters.forEach((letter, index) => {
-                letter.style.top = '30%';
-                letter.style.left = `${spacing + index * (letterWidth + spacing)}px`;
-            });
-        }
-        
-        // Gallery functionality
+        // Gallery functionality - Photo Spinner
         let currentSlide = 0;
         const galleryTrack = document.getElementById('galleryTrack');
         const dots = document.querySelectorAll('.gallery-dot');
         
+        function flipPhoto(element) {
+            element.classList.toggle('flipped');
+        }
+        
         function goToSlide(slideIndex) {
             currentSlide = slideIndex;
-            const galleryItemWidth = document.querySelector('.gallery-item').offsetWidth + 12;
-            galleryTrack.style.transform = `translateX(-${currentSlide * galleryItemWidth}px)`;
+            const photoContainerWidth = document.querySelector('.photo-container').offsetWidth + 20;
+            galleryTrack.style.transform = `translateX(-${currentSlide * photoContainerWidth}px)`;
             
             // Update dots
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSlide);
+            });
+            
+            // Reset all photos to front
+            const allPhotos = document.querySelectorAll('.photo-spinner');
+            allPhotos.forEach(photo => {
+                photo.classList.remove('flipped');
             });
         }
         
@@ -1259,29 +1547,149 @@
             }
         }
         
-        // Playlist functionality
-        const playBtn = document.querySelector('.play-btn');
-        const songItems = document.querySelectorAll('.song-item');
+        // Music Player functionality
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let progressInterval = null;
         
-        playBtn.addEventListener('click', function() {
-            if (playBtn.textContent === '▶') {
-                playBtn.textContent = '❚❚';
-            } else {
-                playBtn.textContent = '▶';
+        // Playlist data
+        const playlist = [
+            {
+                title: "Sweet Melody",
+                artist: "Playful Artist",
+                duration: "3:10"
+            },
+            {
+                title: "Happy Tune",
+                artist: "Joyful Singer", 
+                duration: "2:45"
+            },
+            {
+                title: "Dreamy Beat",
+                artist: "Dream Maker",
+                duration: "4:20"
+            },
+            {
+                title: "Love Song",
+                artist: "Romantic Soul",
+                duration: "3:45"
+            },
+            {
+                title: "Heaven's Harmony",
+                artist: "Angel Voices",
+                duration: "4:05"
             }
-        });
+        ];
         
-        songItems.forEach(item => {
+        function togglePlay() {
+            const playIcon = document.getElementById('playIcon');
+            
+            if (isPlaying) {
+                // Pause playback
+                isPlaying = false;
+                playIcon.className = 'fas fa-play';
+                clearInterval(progressInterval);
+            } else {
+                // Start playback
+                isPlaying = true;
+                playIcon.className = 'fas fa-pause';
+                simulatePlayback();
+            }
+        }
+        
+        function simulatePlayback() {
+            // This is a simulation - in a real app you would use actual audio playback
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            let progress = 0;
+            
+            clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                if (isPlaying && progress < 100) {
+                    progress += 0.5;
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // Calculate time display (simplified)
+                    const totalSeconds = getTotalSeconds(currentSongIndex);
+                    const currentSeconds = Math.floor(totalSeconds * (progress / 100));
+                    const minutes = Math.floor(currentSeconds / 60);
+                    const seconds = currentSeconds % 60;
+                    currentTimeEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                } else if (progress >= 100) {
+                    nextSong();
+                }
+            }, 500);
+        }
+        
+        function getTotalSeconds(index) {
+            const durations = [190, 165, 260, 225, 245]; // Corresponding to playlist durations
+            return durations[index];
+        }
+        
+        function seekAudio(event) {
+            const progressContainer = event.currentTarget;
+            const clickX = event.offsetX;
+            const width = progressContainer.offsetWidth;
+            const percent = (clickX / width) * 100;
+            
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            
+            // Update time display
+            const totalSeconds = getTotalSeconds(currentSongIndex);
+            const currentSeconds = Math.floor(totalSeconds * (percent / 100));
+            const minutes = Math.floor(currentSeconds / 60);
+            const seconds = currentSeconds % 60;
+            document.getElementById('currentTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function previousSong() {
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            loadSong(currentSongIndex);
+        }
+        
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+        }
+        
+        function loadSong(index) {
+            const song = playlist[index];
+            document.getElementById('currentSongTitle').textContent = song.title;
+            document.getElementById('currentSongArtist').textContent = song.artist;
+            document.getElementById('totalTime').textContent = song.duration;
+            
+            // Update active song in playlist
+            const songItems = document.querySelectorAll('.song-item');
+            songItems.forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.index) === index) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Reset progress
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('currentTime').textContent = '0:00';
+            
+            // If playing, restart playback
+            if (isPlaying) {
+                clearInterval(progressInterval);
+                simulatePlayback();
+            }
+        }
+        
+        // Song item click handlers
+        document.querySelectorAll('.song-item').forEach(item => {
             item.addEventListener('click', function() {
-                songItems.forEach(song => song.classList.remove('active'));
-                this.classList.add('active');
+                const index = parseInt(this.dataset.index);
+                currentSongIndex = index;
+                loadSong(index);
                 
-                // Update player display with selected song
-                const title = this.querySelector('.song-title').textContent;
-                const artist = this.querySelector('.song-artist').textContent;
-                
-                document.querySelector('.player-display .song-title').textContent = title;
-                document.querySelector('.player-display .song-artist').textContent = artist;
+                // Auto-play if player was playing
+                if (isPlaying) {
+                    clearInterval(progressInterval);
+                    simulatePlayback();
+                }
             });
         });
         
@@ -1289,19 +1697,12 @@
         window.addEventListener('resize', function() {
             // Recalculate gallery slide position
             goToSlide(currentSlide);
-            
-            // Adjust letter positions if needed
-            if (window.innerWidth < 768) {
-                const letters = document.querySelectorAll('.letter');
-                letters[0].style.left = '5%';
-                letters[1].style.left = '35%';
-                letters[2].style.left = '15%';
-            } else {
-                const letters = document.querySelectorAll('.letter');
-                letters[0].style.left = '10%';
-                letters[1].style.left = '38%';
-                letters[2].style.left = '18%';
-            }
+        });
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            setupLetters();
+            loadSong(0);
         });
     </script>
 </body>
