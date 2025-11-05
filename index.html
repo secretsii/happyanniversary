@@ -123,7 +123,7 @@
             font-weight: 800;
             margin-bottom: 10px;
             color: var(--pink);
-            animation: bounce 2s infinite alternate;
+            animation: none;
         }
 
         .tagline {
@@ -342,17 +342,18 @@
             height: 55vh;
             min-height: 380px;
             width: 100%;
-            background-color: var(--light-gray);
+            background-color: transparent; /* biar gak ada abu-abu */
             border-radius: var(--border-radius);
-            overflow: hidden;
+            overflow: visible; /* ✨ biar surat bisa keluar penuh saat diperbesar */
             margin-bottom: 20px;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+            box-shadow: none;
             flex: 1;
             transition: all 0.4s ease;
         }
 
+
         .letters-container.dimmed {
-            background-color: rgba(248, 248, 248, 0.7);
+            background-color: none;
         }
 
         .letter {
@@ -360,12 +361,12 @@
             width: clamp(150px, 28vw, 200px);
             height: clamp(190px, 35vw, 250px);
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            box-shadow: 0 8px 5px rgba(230, 230, 230, 0.1);
             padding: 18px;
             cursor: pointer;
             user-select: none;
-            border: 1px solid #e0e0e0;
+            border: 0px solid #e0e0e0;
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: 1;
         }
@@ -375,7 +376,7 @@
             top: 30%;
             left: 25%;
             transform: rotate(-10deg);
-            background-color: var(--light-pink);
+            background-color: #F89CAB;
             z-index: 1;
         }
 
@@ -383,7 +384,7 @@
             top: 25%;
             left: 40%;
             transform: rotate(-5deg);
-            background-color: var(--light-blue);
+            background-color: #F89CAB;
             z-index: 2;
         }
 
@@ -391,7 +392,7 @@
             top: 30%;
             left: 55%;
             transform: rotate(5deg);
-            background-color: #f5f0ff;
+            background-color: #F89CAB;
             z-index: 3;
         }
 
@@ -400,14 +401,15 @@
             top: 50% !important;
             left: 50% !important;
             z-index: 100;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: none;
             cursor: default;
         }
 
         .letter.blurred {
-            opacity: 0.4;
             filter: blur(2px);
+            opacity: 1; /* biar gak transparan */
         }
+
 
         .letter:hover:not(.focused) {
             transform: rotate(0deg) scale(1.05);
@@ -422,7 +424,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: #555;
+            color: #ffffff;
             font-size: clamp(15px, 2vw, 17px);
             line-height: 1.4;
         }
@@ -440,7 +442,7 @@
             background-color: var(--pink);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             font-size: clamp(13px, 2vw, 15px);
             transition: all 0.3s;
@@ -519,7 +521,7 @@
 
             /* --- Tampilan belakang (teks) --- */
             .photo-back {
-            background: linear-gradient(to bottom right, #f6f1ec, #e9d9cc);
+            background: linear-gradient(to bottom right, #f0edeb, #f0edeb);
             color: #5b4a3d;
             display: flex;
             align-items: center;
@@ -528,14 +530,27 @@
             font-family: 'Balsamiq Sans', cursive;
             font-size: 1rem;
             transform: rotateY(180deg);
+            padding: 15px;
+            flex-direction: column;
         }
 
-@media (max-width: 600px) {
-  .gallery-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 kolom di HP */
-    gap: 12px;
-  }
-}
+        .hidden-message {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .message-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+          .gallery-grid {
+            grid-template-columns: repeat(2, 1fr); /* 2 kolom di HP */
+            gap: 12px;
+          }
+        }
 
 
 
@@ -682,10 +697,14 @@
         }
 
         .track-item.active {
-            background: white;
-            border-color: var(--pink);
-            box-shadow: 0 4px 12px rgba(255, 126, 185, 0.2);
-        }
+  background: #f8f9fa; /* warna dasar semua */
+  border: none;
+  box-shadow: none;
+  transform: none;
+  transition: none;
+  color: #333;
+}
+
 
         .track-number {
             width: 24px;
@@ -804,6 +823,60 @@
             border-top: 1px solid #f0f0f0;
             margin-top: 25px;
         }
+
+        /* === Music Player Display (judul di atas tombol + tombol di tengah) === */
+.music-player-display {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* === Music Player Display (judul di atas tombol + tombol di tengah) === */
+.music-player-display {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.now-playing-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #000000;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.player-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Tombol Player — warna pink seperti progress bar */
+.play-btn,
+.control-btn {
+  background: var(--pink);  /* warna pink lembut sama kayak progress bar */
+  border: none;
+  padding: 12px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(194, 194, 194, 0.3); /* bayangan pink */
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.play-btn:hover,
+.control-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(199, 199, 199, 0.45);
+  background: #ffb6c9; /* lebih terang pas di-hover */
+}
+
+.play-btn i,
+.control-btn i {
+  color: white; /* icon jadi putih biar kontras */
+  font-size: 18px;
+}
+
+
 
         /* Animations */
         @keyframes fadeIn {
@@ -1067,7 +1140,7 @@
             </div>
             <div class="url-bar">
                 <i class="fas fa-heart"></i>
-                <div class="url-text">Happy anniversary, my love.</div>
+                <div class="url-text">happy anniversary, ayaang!</div>
                 <i class="fas fa-lock"></i>
             </div>
         </div>
@@ -1076,7 +1149,7 @@
             <!-- Home Page -->
             <div id="home" class="content active">
                 <header>
-                    <div class="logo">PlayfulChrome</div>
+                    <div class="logo">Our Love World</div>
                     <div class="tagline">A special place for special moments</div>
                 </header>
                 
@@ -1085,56 +1158,50 @@
                 </div>
                 
                 <div class="menu-container">
-                    <div class="menu-item" onclick="showContent('quiz')">
-                    <div class="menu-image">
-                        <img src="images/quiz.jpg" alt="Quiz Menu">
-                    </div>
-                    <div class="menu-title">Quiz</div>
-                    </div>
+  <!-- QUIZ -->
+  <div class="menu-item" onclick="showContent('quiz')">
+    <div class="menu-image">
+      <img src="images/quiz.jpg" alt="Quiz Menu">
+    </div>
+    <div class="menu-title">Quiz</div>
+  </div>
 
+  <!-- LETTERS -->
+  <div class="menu-item" onclick="showContent('letters')">
+    <div class="menu-image">
+      <img src="images/letters.jpg" alt="Letters Menu">
+    </div>
+    <div class="menu-title">Letters</div>
+  </div>
 
-                    
-                    <div class="menu-item" onclick="showContent('letters')">
-                        <div class="menu-image">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                <i class="fas fa-envelope" style="font-size: 26px;"></i>
-                            </div>
-                        </div>
-                        <div class="menu-title">Letters</div>
-                    </div>
-                    
-                    <div class="menu-item" onclick="showContent('gallery')">
-                        <div class="menu-image">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                <i class="fas fa-images" style="font-size: 26px;"></i>
-                            </div>
-                        </div>
-                        <div class="menu-title">Gallery</div>
-                    </div>
-                    
-                    <div class="menu-item" onclick="showContent('playlist')">
-                        <div class="menu-image">
-                            <!-- Replace with Pinterest image -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                <i class="fas fa-music" style="font-size: 26px;"></i>
-                            </div>
-                        </div>
-                        <div class="menu-title">Playlist</div>
-                    </div>
-                </div>
+  <!-- GALLERY -->
+  <div class="menu-item" onclick="showContent('gallery')">
+    <div class="menu-image">
+      <img src="images/gallery.jpg" alt="Gallery Menu">
+    </div>
+    <div class="menu-title">Gallery</div>
+  </div>
+
+  <!-- PLAYLIST -->
+  <div class="menu-item" onclick="showContent('playlist')">
+    <div class="menu-image">
+      <img src="images/playlist.jpg" alt="Playlist Menu">
+    </div>
+    <div class="menu-title">Playlist</div>
+  </div>
+</div>
+
             </div>
             
             <!-- Quiz Page -->
             <div id="quiz" class="content">
                 <button class="back-btn" onclick="showContent('home')"><i class="fas fa-arrow-left"></i></button>
                 <div class="quiz-container">
-                    <h2 class="quiz-question">Do you love me?</h2>
+                    <h2 class="quiz-question">km sayang ak ga?</h2>
                     <div class="quiz-options">
-                        <div class="quiz-option" onclick="showPopup()">A. Yes</div>
-                        <div class="quiz-option" onclick="showPopup()">B. Of course!</div>
-                        <div class="quiz-option" onclick="showPopup()">C. Absolutely!</div>
+                        <div class="quiz-option" onclick="showPopup()">A. iyaaa</div>
+                        <div class="quiz-option" onclick="showPopup()">B. sayang!</div>
+                        <div class="quiz-option" onclick="showPopup()">C. cinta ak mah</div>
                     </div>
                 </div>
             </div>
@@ -1144,17 +1211,17 @@
                 <button class="back-btn" onclick="showContent('home')"><i class="fas fa-arrow-left"></i></button>
                 <div class="letters-container" id="lettersContainer">
                     <div class="letter" id="letter1">
-                        <div class="letter-content">My Dearest Love,<br><br>Every day with you feels like a beautiful dream. You bring so much joy and happiness into my life. I love you more than words can express! 💕</div>
+                        <div class="letter-content">happy 2nd anniversary, baby. i never imagined we’d come this far and i'm so happy with you. I hope we can stay together forever, because you are my destiny.</div>
                     </div>
                     <div class="letter" id="letter2">
-                        <div class="letter-content">To My Sweetheart,<br><br>Your smile lights up my world and your laughter is my favorite melody. Thank you for being you and for sharing this incredible journey with me. ✨</div>
+                        <div class="letter-content">i feel so lucky to have you my heart overflows with love every time i think of how the universe brought us together. you’re my greatest blessing, my forever kind of love. </div>
                     </div>
                     <div class="letter" id="letter3">
-                        <div class="letter-content">My Beloved,<br><br>No matter where life takes us, I'll always be by your side. You're my best friend, my partner, and my greatest love. Forever yours. 🌸</div>
+                        <div class="letter-content">i really love you more than i could ever put into words. youre the reason i smile without thinking, and the warmth i always come home to. i love youuu so much!</div>
                     </div>
                 </div>
                 <div class="letters-controls">
-                    <button class="letters-btn" onclick="resetLetters()">Reset Letters</button>
+                    <button class="letters-btn" onclick="resetLetters()">click the letters</button>
                 </div>
             </div>
             
@@ -1169,76 +1236,93 @@
                                    <img src="images/photo1.jpg" alt="Memory 1">
                                 </div>
                                 <div class="photo-back">
-                                    <div class="hidden-message">Our First Date 💕</div>
-                                    <div class="message-subtitle">The day my heart found its home</div>
+                                    <div class="hidden-message">my reason</div>
+                                    <div class="message-subtitle">every morning feels brighter because of you, turning ordinary moments into something beautiful.</div>
                                 </div>
                             </div>
                         </div>
                         <div class="photo-container">
                             <div class="photo-spinner" onclick="flipPhoto(this)">
                                 <div class="photo-front">
-                                    Memory 2
+                                   <img src="images/photo2.jpg" alt="Memory 2">
                                 </div>
                                 <div class="photo-back">
-                                    <div class="hidden-message">Beach Sunset 🌅</div>
-                                    <div class="message-subtitle">Watching the waves with you forever</div>
+                                    <div class="hidden-message">the sound of you</div>
+                                    <div class="message-subtitle">something in your voice reminds me what peace feels like.</div>
                                 </div>
                             </div>
                         </div>
                         <div class="photo-container">
                             <div class="photo-spinner" onclick="flipPhoto(this)">
                                 <div class="photo-front">
-                                    Memory 3
+                                   <img src="images/photo3.jpg" alt="Memory 3">
                                 </div>
                                 <div class="photo-back">
-                                    <div class="hidden-message">Morning Coffee ☕</div>
-                                    <div class="message-subtitle">Every morning is perfect with you</div>
+                                    <div class="hidden-message">anywhere w you</div>
+                                    <div class="message-subtitle">no place could ever compare to the feeling of being by your side. Every corner of the world becomes home when your presence fills it with warmth.</div>
                                 </div>
                             </div>
                         </div>
                         <div class="photo-container">
                             <div class="photo-spinner" onclick="flipPhoto(this)">
                                 <div class="photo-front">
-                                    Memory 4
+                                   <img src="images/photo4.jpg" alt="Memory 4">
                                 </div>
                                 <div class="photo-back">
-                                    <div class="hidden-message">Starry Night ✨</div>
-                                    <div class="message-subtitle">You're my favorite constellation</div>
+                                    <div class="hidden-message">lucky to love you</div>
+                                    <div class="message-subtitle">loving you feels like something special i never saw coming. every moment with you reminds me how simple and real love can be.</div>
                                 </div>
                             </div>
                         </div>
                         <div class="photo-container">
                             <div class="photo-spinner" onclick="flipPhoto(this)">
                                 <div class="photo-front">
-                                    Memory 5
+                                   <img src="images/photo5.jpg" alt="Memory 5">
                                 </div>
                                 <div class="photo-back">
-                                    <div class="hidden-message">Winter Warmth ❄️</div>
-                                    <div class="message-subtitle">You make every season magical</div>
+                                    <div class="hidden-message">my favorite song</div>
+                                    <div class="message-subtitle">being with you feels like listening to something familiar and safe. no matter what happens, you always make the moment feel right.</div>
                                 </div>
                             </div>
                         </div>
                         <div class="photo-container">
                             <div class="photo-spinner" onclick="flipPhoto(this)">
                                 <div class="photo-front">
-                                    Memory 6
+                                   <img src="images/photo6.jpg" alt="Memory 6">
                                 </div>
                                 <div class="photo-back">
-                                    <div class="hidden-message">Forever Yours 💖</div>
-                                    <div class="message-subtitle">My heart belongs to you always</div>
+                                    <div class="hidden-message">borrowed time</div>
+                                    <div class="message-subtitle">time always moves too fast when i’m with you. i just wish we could slow everything down and stay a little longer.</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="gallery-nav">
-                        <div class="gallery-dot active" onclick="goToSlide(0)"></div>
-                        <div class="gallery-dot" onclick="goToSlide(1)"></div>
-                        <div class="gallery-dot" onclick="goToSlide(2)"></div>
-                        <div class="gallery-dot" onclick="goToSlide(3)"></div>
-                        <div class="gallery-dot" onclick="goToSlide(4)"></div>
-                        <div class="gallery-dot" onclick="goToSlide(5)"></div>
-                    </div>
+                        <!-- Kartu ke-7 -->
+                        <div class="photo-container">
+                        <div class="photo-spinner" onclick="flipPhoto(this)">
+                            <div class="photo-front">
+                            <img src="images/photo7.jpg" alt="Memory 7">
+                            </div>
+                            <div class="photo-back">
+                            <div class="hidden-message">the shape of love</div>
+                            <div class="message-subtitle">your smile feels like comfort after a long day. it’s the kind of peace i never want to lose.</div>
+                            </div>
+                        </div>
+                        </div>
 
+                        <!-- Kartu ke-8 -->
+                        <div class="photo-container">
+                        <div class="photo-spinner" onclick="flipPhoto(this)">
+                            <div class="photo-front">
+                            <img src="images/photo8.jpg" alt="Memory 8">
+                            </div>
+                            <div class="photo-back">
+                            <div class="hidden-message">forever you</div>
+                            <div class="message-subtitle">no matter where life takes us, i’ll always find my way back to you. you’re the part that always feels like home.</div>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             
@@ -1254,17 +1338,30 @@
                         </div>
                         
                         <!-- Player Controls at Top -->
-                        <div class="player-controls-top">
-                            <button class="control-btn" onclick="previousSong()">
-                                <i class="fas fa-step-backward"></i>
-                            </button>
-                            <button class="play-btn" id="playButton" onclick="togglePlay()">
-                                <i class="fas fa-play" id="playIcon"></i>
-                            </button>
-                            <button class="control-btn" onclick="nextSong()">
-                                <i class="fas fa-step-forward"></i>
-                            </button>
-                        </div>
+                        <!-- Music Player Display -->
+<div class="music-player-display">
+  <!-- Judul Lagu Aktif -->
+  <div class="now-playing-title" id="nowPlayingTitle">
+    SAYANG – myasa
+  </div>
+
+  <!-- Tombol Kontrol -->
+  <div class="player-controls">
+    <button class="control-btn" onclick="previousSong()">
+      <i class="fas fa-step-backward"></i>
+    </button>
+    <button class="play-btn" id="playButton" onclick="togglePlay()">
+      <i class="fas fa-play" id="playIcon"></i>
+    </button>
+    <button class="control-btn" onclick="nextSong()">
+      <i class="fas fa-step-forward"></i>
+    </button>
+  </div>
+</div>
+
+
+
+
                         
                         <!-- Progress Bar -->
                         <div class="progress-container" onclick="seekAudio(event)">
@@ -1278,11 +1375,11 @@
                         
                         <!-- Track List -->
                         <div class="track-list" id="trackList">
-                            <div class="track-item active" data-index="0">
+                            <div class="track-item" data-index="0">
                                 <div class="track-number">1</div>
                                 <div class="track-info">
-                                    <div class="track-title">Sweet Melody</div>
-                                    <div class="track-artist">Playful Artist</div>
+                                    <div class="track-title">SAYANG</div>
+                                    <div class="track-artist">myasa</div>
                                 </div>
                                 <div class="track-duration">3:10</div>
                                 <div class="track-play-icon">
@@ -1292,8 +1389,8 @@
                             <div class="track-item" data-index="1">
                                 <div class="track-number">2</div>
                                 <div class="track-info">
-                                    <div class="track-title">Happy Tune</div>
-                                    <div class="track-artist">Joyful Singer</div>
+                                    <div class="track-title">happy anniversary ya!</div>
+                                    <div class="track-artist">myasa lagi</div>
                                 </div>
                                 <div class="track-duration">2:45</div>
                                 <div class="track-play-icon">
@@ -1303,8 +1400,8 @@
                             <div class="track-item" data-index="2">
                                 <div class="track-number">3</div>
                                 <div class="track-info">
-                                    <div class="track-title">Dreamy Beat</div>
-                                    <div class="track-artist">Dream Maker</div>
+                                    <div class="track-title">ayafyuu so much</div>
+                                    <div class="track-artist">myasa bucin</div>
                                 </div>
                                 <div class="track-duration">4:20</div>
                                 <div class="track-play-icon">
@@ -1314,8 +1411,8 @@
                             <div class="track-item" data-index="3">
                                 <div class="track-number">4</div>
                                 <div class="track-info">
-                                    <div class="track-title">Love Song</div>
-                                    <div class="track-artist">Romantic Soul</div>
+                                    <div class="track-title">sayang tante banyak banyak</div>
+                                    <div class="track-artist">myasa cantik</div>
                                 </div>
                                 <div class="track-duration">3:45</div>
                                 <div class="track-play-icon">
@@ -1325,8 +1422,8 @@
                             <div class="track-item" data-index="4">
                                 <div class="track-number">5</div>
                                 <div class="track-info">
-                                    <div class="track-title">Heaven's Harmony</div>
-                                    <div class="track-artist">Angel Voices</div>
+                                    <div class="track-title">mau ciuman!</div>
+                                    <div class="track-artist">myasaa</div>
                                 </div>
                                 <div class="track-duration">4:05</div>
                                 <div class="track-play-icon">
@@ -1343,13 +1440,13 @@
     <!-- Popup -->
     <div class="popup" id="popup">
         <div class="popup-content">
-            <div class="popup-message">You already know 💖</div>
+            <div class="popup-message">dah tw si ak</div>
             <button class="popup-button" onclick="closePopup()">OK</button>
         </div>
     </div>
     
     <footer>
-        <p>Made with ❤️ | Playful Chrome - Celebrating Love</p>
+        <p>Made with love by Myasa | 2nd Anniversary</p>
     </footer>
 
     <script>
@@ -1363,6 +1460,11 @@
             
             // Show selected content
             document.getElementById(pageId).classList.add('active');
+            
+            // Reset letters when leaving letters page
+            if (pageId !== 'letters') {
+                closeFocusedLetter();
+            }
         }
         
         // Quiz popup functionality
@@ -1375,7 +1477,7 @@
             showContent('home');
         }
         
-        // Letters functionality with card fan layout
+        // Letters functionality with card fan layout - FIXED
         let focusedLetter = null;
         
         function setupLetters() {
@@ -1466,104 +1568,51 @@
         }
         
         // Gallery functionality - Photo Spinner
-        let currentSlide = 0;
-        const galleryTrack = document.getElementById('galleryTrack');
-        const dots = document.querySelectorAll('.gallery-dot');
-        
         function flipPhoto(element) {
             element.classList.toggle('flipped');
         }
         
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            const photoContainerWidth = document.querySelector('.photo-container').offsetWidth + 20;
-            galleryTrack.style.transform = `translateX(-${currentSlide * photoContainerWidth}px)`;
-            
-            // Update dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-            
-            // Reset all photos to front
-            const allPhotos = document.querySelectorAll('.photo-spinner');
-            allPhotos.forEach(photo => {
-                photo.classList.remove('flipped');
-            });
-        }
-        
-        function nextSlide() {
-            if (currentSlide < 5) {
-                goToSlide(currentSlide + 1);
-            }
-        }
-        
-        function prevSlide() {
-            if (currentSlide > 0) {
-                goToSlide(currentSlide - 1);
-            }
-        }
-        
-        // Add swipe functionality for gallery
-        let startX = 0;
-        let endX = 0;
-        
-        galleryTrack.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
-        
-        galleryTrack.addEventListener('touchend', (e) => {
-            endX = e.changedTouches[0].clientX;
-            handleSwipe();
-        });
-        
-        function handleSwipe() {
-            const diff = startX - endX;
-            
-            // Minimum swipe distance
-            if (Math.abs(diff) > 50) {
-                if (diff > 0 && currentSlide < 5) {
-                    // Swipe left
-                    nextSlide();
-                } else if (diff < 0 && currentSlide > 0) {
-                    // Swipe right
-                    prevSlide();
-                }
-            }
-        }
-        
-        // Music Player functionality - Redesigned with Fixed Layout
+        // Music Player functionality - FIXED
         let currentSongIndex = 0;
         let isPlaying = false;
         let progressInterval = null;
+        let currentProgress = 0;
         
         // Playlist data
         const playlist = [
             {
-                title: "Sweet Melody",
-                artist: "Playful Artist",
-                duration: "3:10"
+                title: "SAYANG",
+                artist: "myasa",
+                duration: "3:10",
+                totalSeconds: 190
             },
             {
-                title: "Happy Tune",
-                artist: "Joyful Singer", 
-                duration: "2:45"
+                title: "happy anniversary ya!",
+                artist: "myasa lagi", 
+                duration: "2:45",
+                totalSeconds: 165
             },
             {
-                title: "Dreamy Beat",
-                artist: "Dream Maker",
-                duration: "4:20"
+                title: "ayafyuu so much",
+                artist: "myasa bucin",
+                duration: "4:20",
+                totalSeconds: 260
             },
             {
-                title: "Love Song",
-                artist: "Romantic Soul",
-                duration: "3:45"
+                title: "sayang tante banyak banyak",
+                artist: "myasa cantik",
+                duration: "3:45",
+                totalSeconds: 225
             },
             {
-                title: "Heaven's Harmony",
-                artist: "Angel Voices",
-                duration: "4:05"
+                title: "mau ciuman!",
+                artist: "myasaa",
+                duration: "4:05",
+                totalSeconds: 245
             }
         ];
+
+        
         
         function togglePlay() {
             const playIcon = document.getElementById('playIcon');
@@ -1577,111 +1626,110 @@
                 // Start playback
                 isPlaying = true;
                 playIcon.className = 'fas fa-pause';
-                simulatePlayback();
+                startPlayback();
             }
         }
         
-        function simulatePlayback() {
-            // This is a simulation - in a real app you would use actual audio playback
+        function startPlayback() {
             const progressBar = document.getElementById('progressBar');
             const currentTimeEl = document.getElementById('currentTime');
-            let progress = 0;
             
             clearInterval(progressInterval);
+            
             progressInterval = setInterval(() => {
-                if (isPlaying && progress < 100) {
-                    progress += 0.5;
-                    progressBar.style.width = `${progress}%`;
+                if (isPlaying && currentProgress < 100) {
+                    currentProgress += (100 / (playlist[currentSongIndex].totalSeconds * 2));
+                    progressBar.style.width = `${currentProgress}%`;
                     
-                    // Calculate time display (simplified)
-                    const totalSeconds = getTotalSeconds(currentSongIndex);
-                    const currentSeconds = Math.floor(totalSeconds * (progress / 100));
+                    // Calculate time display
+                    const totalSeconds = playlist[currentSongIndex].totalSeconds;
+                    const currentSeconds = Math.floor(totalSeconds * (currentProgress / 100));
                     const minutes = Math.floor(currentSeconds / 60);
                     const seconds = currentSeconds % 60;
                     currentTimeEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                } else if (progress >= 100) {
-                    nextSong();
+                    
+                    // Auto next song when finished
+                    if (currentProgress >= 100) {
+                        nextSong();
+                    }
                 }
             }, 500);
         }
         
-        function getTotalSeconds(index) {
-            const durations = [190, 165, 260, 225, 245]; // Corresponding to playlist durations
-            return durations[index];
-        }
-        
         function seekAudio(event) {
+            if (!isPlaying) return;
+            
             const progressContainer = event.currentTarget;
             const clickX = event.offsetX;
             const width = progressContainer.offsetWidth;
-            const percent = (clickX / width) * 100;
+            currentProgress = (clickX / width) * 100;
             
-            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('progressBar').style.width = `${currentProgress}%`;
             
             // Update time display
-            const totalSeconds = getTotalSeconds(currentSongIndex);
-            const currentSeconds = Math.floor(totalSeconds * (percent / 100));
+            const totalSeconds = playlist[currentSongIndex].totalSeconds;
+            const currentSeconds = Math.floor(totalSeconds * (currentProgress / 100));
             const minutes = Math.floor(currentSeconds / 60);
             const seconds = currentSeconds % 60;
             document.getElementById('currentTime').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('nowPlayingTitle').textContent = `${song.title} – ${song.artist}`;
+
         }
         
         function previousSong() {
             currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
             loadSong(currentSongIndex);
+            if (isPlaying) {
+                startPlayback();
+            }
         }
         
         function nextSong() {
             currentSongIndex = (currentSongIndex + 1) % playlist.length;
             loadSong(currentSongIndex);
+            if (isPlaying) {
+                startPlayback();
+            }
         }
         
         function loadSong(index) {
-            const song = playlist[index];
-            document.getElementById('totalTime').textContent = song.duration;
-            
-            // Update active song in track list
-            const trackItems = document.querySelectorAll('.track-item');
-            trackItems.forEach(item => {
-                item.classList.remove('active');
-                if (parseInt(item.dataset.index) === index) {
-                    item.classList.add('active');
-                }
-            });
-            
-            // Reset progress
-            document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('currentTime').textContent = '0:00';
-            
-            // If playing, restart playback
-            if (isPlaying) {
-                clearInterval(progressInterval);
-                simulatePlayback();
-            }
-        }
+    const song = playlist[index];
+    
+    // Update song info
+    document.getElementById('totalTime').textContent = song.duration;
+    
+    // ❌ Hapus bagian update active track supaya tampilan gak berubah
+    // const trackItems = document.querySelectorAll('.track-item');
+    // trackItems.forEach(item => {
+    //     item.classList.remove('active');
+    //     if (parseInt(item.dataset.index) === index) {
+    //         item.classList.add('active');
+    //     }
+    // });
+
+    // Reset progress
+    currentProgress = 0;
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('currentTime').textContent = '0:00';
+    document.getElementById('nowPlayingTitle').textContent = `${song.title} – ${song.artist}`;
+
+}
+
         
         // Track item click handlers
         document.querySelectorAll('.track-item').forEach(item => {
             item.addEventListener('click', function() {
                 const index = parseInt(this.dataset.index);
-                currentSongIndex = index;
-                loadSong(index);
-                
-                // Auto-play if player was playing
-                if (isPlaying) {
-                    clearInterval(progressInterval);
-                    simulatePlayback();
-                } else {
-                    // If not playing, just update the UI
-                    togglePlay();
+                if (currentSongIndex !== index) {
+                    currentSongIndex = index;
+                    loadSong(index);
+                    
+                    // Auto-play if player was playing
+                    if (isPlaying) {
+                        startPlayback();
+                    }
                 }
             });
-        });
-        
-        // Handle window resize for responsive adjustments
-        window.addEventListener('resize', function() {
-            // Recalculate gallery slide position
-            goToSlide(currentSlide);
         });
         
         // Initialize the page
