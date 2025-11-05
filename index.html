@@ -465,57 +465,79 @@
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 20px;
+            justify-items: center;
+            align-items: center;
+            padding: 20px;
             width: 100%;
+            max-width: 1000px; /* biar ga terlalu lebar di desktop */
+            margin: 0 auto;
         }
 
-        .photo-container {
+
+            /* --- Flip container --- */
+            .photo-container {
+            width: 100%;
+            aspect-ratio: 1 / 1;
             position: relative;
-            width: 100%;
-            aspect-ratio: 1 / 1; /* ini bikin foto rasio 1:1 */
-            perspective: 1000px;
-            cursor: pointer;
+            perspective: 1000px; /* efek kedalaman 3D */
         }
 
-        .photo-spinner {
+            /* --- Elemen yang akan berputar --- */
+            .photo-spinner {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.8s ease;
+            transition: transform 0.8s ease-in-out; /* buat animasi smooth */
+            cursor: pointer;
         }
 
-        .photo-front, .photo-back {
+            .photo-spinner.flipped {
+            transform: rotateY(180deg);
+        }
+
+            /* --- Depan & belakang kartu --- */
+            .photo-front,
+            .photo-back {
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden;
-            border-radius: 10px;
+            border-radius: 15px;
+            backface-visibility: hidden; /* sembunyikan sisi belakang pas muter */
             overflow: hidden;
         }
 
-        .photo-front img, .photo-back img {
+            /* --- Tampilan depan (foto) --- */
+            .photo-front img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 15px;
         }
 
-        .photo-back {
-            transform: rotateY(180deg);
-            background: linear-gradient(to bottom right, #e9d9cc, #e9d9cc);
+            /* --- Tampilan belakang (teks) --- */
+            .photo-back {
+            background: linear-gradient(to bottom right, #f6f1ec, #e9d9cc);
+            color: #5b4a3d;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #5b4a3d;;
-            font-weight: bold;
             text-align: center;
-            padding: 15px;
-        }
-
-        .photo-spinner.flipped {
+            font-family: 'Balsamiq Sans', cursive;
+            font-size: 1rem;
             transform: rotateY(180deg);
         }
+
+@media (max-width: 600px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 kolom di HP */
+    gap: 12px;
+  }
+}
+
+
 
         /* Apple Music Inspired Player - Redesigned with Fixed Layout */
         .playlist-container {
